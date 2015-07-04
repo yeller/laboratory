@@ -3,5 +3,6 @@
 if [ -z "$JANKY_SHA1" ]; then
     lein test
 else
+    lein test
     lein with-profile benches run -m fineman.benchmarks
 fi
