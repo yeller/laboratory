@@ -1,21 +1,52 @@
 (ns fineman.benchmarks
-  (:require [criterium.core :refer [bench]]
+  (:require [criterium.core :as criterium]
             [fineman.experiment :as science]))
+
+(defmacro bench [bench-name & body]
+  `(do
+     (println ~bench-name)
+     (println "======================================================")
+     (println)
+     (criterium/bench
+       ~@body)))
 
 (def experiment-with-broken-candidate
   {:use (fn [] 1)
    :try (fn [] 2)})
 
+(def with-one-arg
+  {:use (fn [user] (:email user))
+   :try (fn [user] (:email user))})
+
+(def with-two-args
+  {:use (fn [user _] (:email user))
+   :try (fn [user _] (:email user))})
+
 (defn -main [& args]
-  (println "without fastness")
-  (println "======================================================")
-  (println)
-  (bench
+  (bench "with-no-args-map"
     (science/run experiment-with-broken-candidate))
 
-  (println "without fastness")
-  (println "======================================================")
-  (println)
   (let [faster-experiment (science/make-it-faster! experiment-with-broken-candidate)]
-    (bench
-      (science/run faster-experiment))))
+    (bench "with-no-args-record"
+      (science/run faster-experiment)))
+
+  (bench "with-one-arg-map"
+         (science/run with-one-arg {:email "tom@tcrayford.com"}))
+
+  (let [faster-experiment (science/make-it-faster! with-one-arg)]
+    (bench "with-one-arg-record"
+      (science/run faster-experiment {:email "tom@tcrayford.com"})))
+
+  (bench "with-two-arg-map"
+         (science/run with-two-args {:email "tom@tcrayford.com"} 1))
+
+  (let [faster-experiment (science/make-it-faster! with-two-args)]
+    (bench "with-two-arg-record"
+      (science/run faster-experiment {:email "tom@tcrayford.com"} 1)))
+
+  (bench "with-three-args"
+         (science/run with-two-args {:email "tom@tcrayford.com"} 1 2))
+
+  (let [faster-experiment (science/make-it-faster! with-two-args)]
+    (bench "with-three-args-record"
+      (science/run faster-experiment {:email "tom@tcrayford.com"} 1 2))))
