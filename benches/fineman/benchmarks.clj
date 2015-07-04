@@ -23,8 +23,8 @@
    :try (fn [user _] (:email user))})
 
 (def with-three-args
-  {:use (fn [user _] (:email user))
-   :try (fn [user _] (:email user))})
+  {:use (fn [user _ _] (:email user))
+   :try (fn [user _ _] (:email user))})
 
 (defn -main [& args]
   (bench "with-no-args-map"
