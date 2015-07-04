@@ -22,6 +22,10 @@
   {:use (fn [user _] (:email user))
    :try (fn [user _] (:email user))})
 
+(def with-three-args
+  {:use (fn [user _] (:email user))
+   :try (fn [user _] (:email user))})
+
 (defn -main [& args]
   (bench "with-no-args-map"
     (science/run experiment-with-broken-candidate))
@@ -45,8 +49,8 @@
       (science/run faster-experiment {:email "tom@tcrayford.com"} 1)))
 
   (bench "with-three-args"
-         (science/run with-two-args {:email "tom@tcrayford.com"} 1 2))
+         (science/run with-three-args {:email "tom@tcrayford.com"} 1 2))
 
-  (let [faster-experiment (science/make-it-faster! with-two-args)]
+  (let [faster-experiment (science/make-it-faster! with-three-args)]
     (bench "with-three-args-record"
       (science/run faster-experiment {:email "tom@tcrayford.com"} 1 2))))
