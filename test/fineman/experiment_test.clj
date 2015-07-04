@@ -37,4 +37,11 @@
   (testing "it returns the result after being made faster"
     (is (= (science/run (science/make-it-faster! {:use (fn [] 1)
                                                   :try (fn [] 2)}))
-           1))))
+           1)))
+
+  (dotimes [n 10]
+    (testing (str "it works with " n " args")
+      (let [experiment (eval `{:use (fn [~@(map symbol (map #(str "arg" %) (range n)))] 1)
+                               :try (fn [~@(map symbol (map #(str "arg" %) (range n)))] 2)})]
+        (is (= 1 (apply science/run experiment (range n))))
+        (is (= 1 (apply science/run (science/make-it-faster! experiment) (range n))))))))
