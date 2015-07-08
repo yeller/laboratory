@@ -73,7 +73,7 @@
          (throw (:value control-result)))
        (:value control-result))
 
-     ((:use experiment) arg1)))
+     ((:use experiment) arg1 arg2)))
 
 
   ([experiment arg1 arg2 arg3]
@@ -85,7 +85,7 @@
          (throw (:value control-result)))
        (:value control-result))
 
-     ((:use experiment) arg1)))
+     ((:use experiment) arg1 arg2 arg3)))
 
 
   ([experiment arg1 arg2 arg3 & args]

@@ -45,4 +45,12 @@
                                :try (fn [~@(map symbol (map #(str "arg" %) (range n)))] 2)
                                :enabled (fn [~@(map symbol (map #(str "arg" %) (range n)))] true)})]
         (is (= 1 (apply science/run experiment (range n))))
+        (is (= 1 (apply science/run (science/make-it-faster! experiment) (range n)))))))
+
+  (dotimes [n 10]
+    (testing (str "it works with " n " args")
+      (let [experiment (eval `{:use (fn [~@(map symbol (map #(str "arg" %) (range n)))] 1)
+                               :try (fn [~@(map symbol (map #(str "arg" %) (range n)))] 2)
+                               :enabled (fn [~@(map symbol (map #(str "arg" %) (range n)))] false)})]
+        (is (= 1 (apply science/run experiment (range n))))
         (is (= 1 (apply science/run (science/make-it-faster! experiment) (range n))))))))
