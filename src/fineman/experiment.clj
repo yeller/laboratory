@@ -54,7 +54,7 @@
      ((:use experiment))))
 
   ([experiment arg1]
-   (if ((or (:enabled experiment) always-enabled))
+   (if ((or (:enabled experiment) always-enabled) arg1)
      (let [control-result (run-with-result (:use experiment) arg1)
            candidate-result (run-with-result (:try experiment) arg1)]
        ((or (:publish experiment) publish-nowhere) (make-result experiment control-result candidate-result))
@@ -65,7 +65,7 @@
      ((:use experiment) arg1)))
 
   ([experiment arg1 arg2]
-   (if ((or (:enabled experiment) always-enabled))
+   (if ((or (:enabled experiment) always-enabled) arg1 arg2)
      (let [control-result (run-with-result (:use experiment) arg1 arg2)
            candidate-result (run-with-result (:try experiment) arg1 arg2)]
        ((or (:publish experiment) publish-nowhere) (make-result experiment control-result candidate-result))
@@ -77,7 +77,7 @@
 
 
   ([experiment arg1 arg2 arg3]
-   (if ((or (:enabled experiment) always-enabled))
+   (if ((or (:enabled experiment) always-enabled) arg1 arg2 arg3)
      (let [control-result (run-with-result (:use experiment) arg1 arg2 arg3)
            candidate-result (run-with-result (:try experiment) arg1 arg2 arg3)]
        ((or (:publish experiment) publish-nowhere) (make-result experiment control-result candidate-result))
@@ -89,7 +89,7 @@
 
 
   ([experiment arg1 arg2 arg3 & args]
-   (if ((or (:enabled experiment) always-enabled))
+   (if (apply (or (:enabled experiment) always-enabled) arg1 arg2 arg3 args)
      (let [control-result (apply run-with-result (:use experiment) arg1 arg2 arg3 args)
            candidate-result (apply run-with-result (:try experiment) arg1 arg2 arg3 args)]
        ((or (:publish experiment) publish-nowhere) (make-result experiment control-result candidate-result))
