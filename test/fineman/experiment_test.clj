@@ -26,6 +26,15 @@
       (is (= (-> @published :control :value) 1))
       (is (= (-> @published :candidate :value) 2))))
 
+  (testing "publishes the durations"
+    (let [published (atom nil)]
+      (science/run {:use (fn [] 1)
+                    :try (fn [] 2)
+                    :publish (fn [result]
+                               (reset! published result))})
+      (is (pos? (-> @published :control :duration)))
+      (is (pos? (-> @published :candidate :duration)))))
+
   (testing "doesn't publish if the experiment is disabled"
     (let [published (atom nil)]
       (science/run {:use (fn [] 1)

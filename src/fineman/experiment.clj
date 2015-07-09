@@ -9,7 +9,8 @@
 
 (defn publish-nowhere [_])
 
-(defn nanos->ms [nanos])
+(defn nanos->ms [nanos]
+  (float  (/  nanos 1000000)))
 
 (defn run-with-result
   ([f]
