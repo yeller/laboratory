@@ -10,7 +10,7 @@ https://github.com/github/scientist, but for Clojure (api and readme liberally s
 ## Usage
 
 ```clojure
-(require '[fineman.scientist :as science])
+(require '[fineman.experiment :as science])
 
 (def my-experiment
   {:name "widget-permissions"
