@@ -2,4 +2,4 @@
 
 set -e
 grench eval "(do (require 'bolth.test) (bolth.test/pretty-refresh) nil)"
-grench eval "(do (require 'bolth.test) (bolth.test/run-all-tests #\"fineman.*\") nil)"
+grench eval "(do (require 'bolth.test) (bolth.test/run-all-tests #\"laboratory.*\") nil)"

@@ -1,4 +1,4 @@
-(ns fineman.experiment)
+(ns laboratory.experiment)
 
 (defrecord ExperimentSideResult [duration value])
 

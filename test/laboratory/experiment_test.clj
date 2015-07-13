@@ -1,6 +1,6 @@
-(ns fineman.experiment-test
+(ns laboratory..experiment-test
   (:require [clojure.test :refer :all]
-            [fineman.experiment :as science]))
+            [laboratory.experiment :as science]))
 
 (deftest run-experiment-test
   (testing "always returns the control result"

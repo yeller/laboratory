@@ -1,8 +1,6 @@
-> Richard was a fine man
-
 > This isn't SCIENCE this is PRODUCTION
 
-# fineman
+# laboratory
 
 A Clojure library designed to help you experiment in production.
 https://github.com/github/scientist, but for Clojure (api and readme liberally stolen)
@@ -10,7 +8,7 @@ https://github.com/github/scientist, but for Clojure (api and readme liberally s
 ## Usage
 
 ```clojure
-(require '[fineman.experiment :as science])
+(require '[laboratory.experiment :as science])
 
 (def my-experiment
   {:name "widget-permissions"
@@ -20,7 +18,7 @@ https://github.com/github/scientist, but for Clojure (api and readme liberally s
 (science/run my-experiment widget user)
 ```
 
-Fineman runs experiments as *functions*.
+laboratory runs experiments as *functions*.
 Whatever arguments you pass to `run` are also passed to `:try` and `:use`.
 The function under `:use` is the "control" (the original code you used to have).
 The function under `:try` is the "experiment" (the new code that you want to compare).
@@ -72,23 +70,21 @@ I'd recommend using something like https://github.com/yeller/shoutout for this.
 ## Faster, more Validated Science
 
 Whilst running experiments as maps is easy, and very flexible, looking keys up in maps ain't the fastest thing for the JVM
-to optimize. Instead fineman offers a simple record wrapper for experiments, which dramatically changes performance:
+to optimize. Instead laboratory offers a simple record wrapper for experiments, which dramatically changes performance:
 
 ```clojure
 (science/make-it-faster! experiment) ; returns a record
 ```
 
-TODO: benchmark dat science
-
 ## Rationale
 
 Feature flags are *great* for rolling out production code changes gradually.
 But they don't go far enough for changes to critical paths - there's nothing in them about comparing results, or comparing performance of each side.
-That's where Fineman comes in.
+That's where laboratory comes in.
 
 ## Non-Goals
 
-Fineman leaves choice of metrics system, how to record mismatches, how to enable experiments for particular cases all up to you.
+laboratory leaves choice of metrics system, how to record mismatches, how to enable experiments for particular cases all up to you.
 
 ## Punted On
 

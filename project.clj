@@ -1,4 +1,4 @@
-(defproject fineman "0.1.0-SNAPSHOT"
+(defproject laboratory "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"

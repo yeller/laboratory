@@ -1,6 +1,6 @@
-(ns fineman.benchmarks
+(ns laboratory.benchmarks
   (:require [criterium.core :as criterium]
-            [fineman.experiment :as science]))
+            [laboratory.experiment :as science]))
 
 (defmacro bench [bench-name & body]
   `(do
