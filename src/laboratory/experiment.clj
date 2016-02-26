@@ -67,12 +67,11 @@
 (defn run
   "Given an experiment map
   Run the experiment, capturing the `:duration-ns` and other experiment `:metrics`.
-  If the results are set to `publish-nowhere`, the experiment isn't run,
+  If the results aren't `:publish`ed, the experiment isn't run,
    if no one is looking at the results, the experiment isn't worth conducting."
   ([experiment]
    (if (and ((:enabled experiment always-enabled))
-            (:publish experiment)
-            (not= (:publish experiment) publish-nowhere))
+            (:publish experiment))
      (let [control-result (run-with-result (:use experiment) (:metrics experiment))
            candidate-result (run-with-result (:try experiment) (:metrics experiment))]
        ((:publish experiment publish-nowhere) (make-result experiment [] control-result candidate-result))
@@ -83,8 +82,7 @@
 
   ([experiment arg1]
    (if (and ((:enabled experiment always-enabled) arg1)
-            (:publish experiment)
-            (not= (:publish experiment) publish-nowhere))
+            (:publish experiment))
      (let [control-result (run-with-result (:use experiment) (:metrics experiment) arg1)
            candidate-result (run-with-result (:try experiment) (:metrics experiment) arg1)]
        ((:publish experiment publish-nowhere) (make-result experiment [arg1] control-result candidate-result))
@@ -95,8 +93,7 @@
 
   ([experiment arg1 arg2]
    (if (and ((:enabled experiment always-enabled) arg1 arg2)
-            (:publish experiment)
-            (not= (:publish experiment) publish-nowhere))
+            (:publish experiment))
      (let [control-result (run-with-result (:use experiment) (:metrics experiment) arg1 arg2)
            candidate-result (run-with-result (:try experiment) (:metrics experiment) arg1 arg2)]
        ((:publish experiment publish-nowhere) (make-result experiment [arg1 arg2] control-result candidate-result))
@@ -108,8 +105,7 @@
 
   ([experiment arg1 arg2 arg3]
    (if (and ((:enabled experiment always-enabled) arg1 arg2 arg3)
-            (:publish experiment)
-            (not= (:publish experiment) publish-nowhere))
+            (:publish experiment))
      (let [control-result (run-with-result (:use experiment) (:metrics experiment) arg1 arg2 arg3)
            candidate-result (run-with-result (:try experiment) (:metrics experiment) arg1 arg2 arg3)]
        ((:publish experiment publish-nowhere) (make-result experiment [arg1 arg2 arg3] control-result candidate-result))
@@ -120,8 +116,7 @@
 
   ([experiment arg1 arg2 arg3 arg4]
    (if (and ((:enabled experiment always-enabled) arg1 arg2 arg3 arg4)
-            (:publish experiment)
-            (not= (:publish experiment) publish-nowhere))
+            (:publish experiment))
      (let [control-result (run-with-result (:use experiment) (:metrics experiment) arg1 arg2 arg3 arg4)
            candidate-result (run-with-result (:try experiment) (:metrics experiment) arg1 arg2 arg3 arg4)]
        ((:publish experiment publish-nowhere) (make-result experiment [arg1 arg2 arg3 arg4] control-result candidate-result))
@@ -132,8 +127,7 @@
 
   ([experiment arg1 arg2 arg3 arg4 & args]
    (if (and (apply (:enabled experiment always-enabled) arg1 arg2 arg3 arg4 args)
-            (:publish experiment)
-            (not= (:publish experiment) publish-nowhere))
+            (:publish experiment))
      (let [control-result (apply run-with-result (:use experiment) (:metrics experiment) arg1 arg2 arg3 arg4 args)
            candidate-result (apply run-with-result (:try experiment) (:metrics experiment) arg1 arg2 arg3 arg4 args)]
        ((:publish experiment publish-nowhere) (make-result experiment (into [arg1 arg2 arg3 arg4] args) control-result candidate-result))
@@ -141,7 +135,6 @@
          (throw (:value control-result))
          (:value control-result)))
      (apply (:use experiment) arg1 arg2 arg3 arg4 args))))
-
 
 
 (comment

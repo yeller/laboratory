@@ -68,6 +68,7 @@
     (is (= (science/run (science/map->Experiment {:use (fn [] 1)
                                                   :try (fn [] 2)
                                                   :metrics {}
+                                                  :publish identity
                                                   :enabled (constantly true)}))
            1)))
 
@@ -75,15 +76,18 @@
     (testing (str "it works with " n " args")
       (let [experiment (eval `{:use (fn [~@(map symbol (map #(str "arg" %) (range n)))] 1)
                                :try (fn [~@(map symbol (map #(str "arg" %) (range n)))] 2)
-                               :enabled (fn [~@(map symbol (map #(str "arg" %) (range n)))] true)})]
+                               :enabled (fn [~@(map symbol (map #(str "arg" %) (range n)))] true)
+                               :metrics {}
+                               :publish identity})]
         (is (= 1 (apply science/run experiment (range n))))
-        (is (= 1 (apply science/run (science/make-it-faster! experiment) (range n)))))))
+        (is (= 1 (apply science/run (science/map->Experiment experiment) (range n)))))))
 
   (dotimes [n 10]
     (testing (str "it works with " n " args")
       (let [experiment (eval `{:use (fn [~@(map symbol (map #(str "arg" %) (range n)))] 1)
                                :try (fn [~@(map symbol (map #(str "arg" %) (range n)))] 2)
                                :enabled (fn [~@(map symbol (map #(str "arg" %) (range n)))] false)
-                               :metrics {}})]
+                               :metrics {}
+                               :publish identity})]
         (is (= 1 (apply science/run experiment (range n))))
         (is (= 1 (apply science/run (science/map->Experiment experiment) (range n))))))))
